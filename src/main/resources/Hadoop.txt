@@ -1,0 +1,1 @@
+#### New feature of Hadoop 2.0

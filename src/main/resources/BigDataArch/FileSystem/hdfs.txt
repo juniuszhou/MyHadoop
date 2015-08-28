@@ -1,3 +1,10 @@
+hdfs following one write multi read mode.
+write need lease, then other write can't do change.
+while writing, other reader can read at the same time.
+
+
+
+
 978-1-4244-7153-9/10/$26.00 ©2010 IEEE
 The Hadoop Distributed File System
 Konstantin Shvachko, Hairong Kuang, Sanjay Radia, Robert Chansler

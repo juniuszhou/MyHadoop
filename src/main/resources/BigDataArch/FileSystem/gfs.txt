@@ -147,9 +147,9 @@ logging mutations to an operation log stored on the master’s
 local disk and replicated on remote machines. Using
 a log allows us to update the master state simply, reliably,
 and without risking inconsistencies in the event of a master
-crash. The master does not store chunklocation information
-persistently. Instead, it asks each chunkserver about its
-chunks at master startup and whenever a chunkserver joins
+crash. The master does not store chunk location information
+persistently. Instead, it asks each chunk server about its
+chunks at master startup and whenever a chunk server joins
 the cluster.
 2.6.1 In-Memory Data Structures
 Since metadata is stored in memory, master operations are

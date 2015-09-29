@@ -1,0 +1,38 @@
+####
+hbase must cooperate with zookeeper.
+
+each server need register to /hbase/src in znode.
+
+
+
+## data storage format
+HFile key value format. it is binary in HDFS. StoreFile just a wrapper on HFile.
+HLogFile write ahead log for HBase.
+
+root table and metadata table.
+
+## HRegion
+a table includes a lot of HRegions. just one at the beginning.
+then be more regions if more and more data.
+
+HRegion include several store, store just for one columns family.
+
+store has one memStore and several StoreFile.
+StoreFile 's format is HFile and exist in HDFS.
+
+
+## Interface
+shell, REST gateway. Thrift gateway. support java/scala, c/c++, python.
+
+
+
+## core algorithm
+LSM log structured merge tree used by HBase.
+
+for oracle, mysql use btree.
+
+LSM much faster for write
+btree faster for read.
+
+LSM put data into a lot of ordered block.
+Bloom filter used to determine if a sorted block include the data.

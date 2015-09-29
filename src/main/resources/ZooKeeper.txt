@@ -6,6 +6,14 @@ it is developed in java.
 
 zk put most of data in memory, so it need machine with enough memory.
 
+zab protocol. zookeeper atomic broadcast.
+it is different with Paxos, the protocol used by chubby.
+
+
+## concepts about consistency.
+ACID atomic, isolation,
+CAP consistency, available, partition.
+BASE
 
 #### major concepts.
 Leader: launch voting and update system

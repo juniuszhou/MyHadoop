@@ -1,0 +1,11 @@
+
+
+
+## snapshot
+hdfs dfsadmin -allowSnapshot <path>
+
+hdfs dfs -createSnapshot <path> [<snapshotName>]
+
+hdfs dfs -deleteSnapshot <path> <snapshotName>
+
+we need snapshot for data safety.

@@ -24,3 +24,7 @@ run at node. itself also run as a task in node.
 For spark, there are cluster mode and client mode. the AM can run at driver machine.
 
 
+
+
+
+

@@ -10,6 +10,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.util.GenericOptionsParser;
 
 public class NewWordCount {
 
@@ -29,6 +30,7 @@ public class NewWordCount {
         }
     }
 
+    // put output in the same directory and several partition files.
     public static class IntSumReducer
             extends Reducer<Text,IntWritable,Text,IntWritable> {
         private IntWritable result = new IntWritable();
@@ -47,13 +49,13 @@ public class NewWordCount {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
-        /*
+
         String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
         if (otherArgs.length != 2) {
             System.err.println("Usage: wordcount <in> <out>");
             System.exit(2);
         }
-        */
+
         Job job = new Job(conf, "word count");
         job.setJarByClass(NewWordCount.class);
         job.setMapperClass(TokenizerMapper.class);
@@ -62,10 +64,14 @@ public class NewWordCount {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
-        String inputPath = "E:\\input.txt";
-        String outputPath = "E:\\";
-        FileInputFormat.addInputPath(job, new Path(inputPath));
-        FileOutputFormat.setOutputPath(job, new Path(outputPath));
+        String inputPath = "text.txt";
+        String outputPath = "statistics.txt";
+        //FileInputFormat.addInputPath(job, new Path(args[0]));
+        //FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }

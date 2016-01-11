@@ -11,6 +11,7 @@ import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import org.apache.hadoop.mapreduce.lib.output.MapFileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
 
@@ -40,6 +41,7 @@ public class NewWordCount {
         public void reduce(Text key, Iterable<IntWritable> values,
                            Context context
         ) throws IOException, InterruptedException {
+
             int sum = 0;
             for (IntWritable val : values) {
                 sum += val.get();
@@ -51,15 +53,15 @@ public class NewWordCount {
     }
 
     public static void main(String[] args) throws Exception {
+        System.out.println("new version");
         Configuration conf = new Configuration();
 
         String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
-        if (otherArgs.length != 2) {
-            System.err.println("Usage: wordcount <in> <out>");
-            System.exit(2);
-        }
+
+
 
         Job job = Job.getInstance(conf);
+
 
         job.setJarByClass(NewWordCount.class);
         job.setMapperClass(TokenizerMapper.class);
@@ -68,14 +70,19 @@ public class NewWordCount {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
+        // set reduce as 1. no method to set map number now.
+        job.setNumReduceTasks(1);
 
-        String inputPath = "text.txt";
-        String outputPath = "statistics.txt";
-        //FileInputFormat.addInputPath(job, new Path(args[0]));
+
+        String input = "file:///home/junius/data/input";
+        String output = "file:///home/junius/data/output";
+
+        //String input = args[0]";
+        //String output = args[1]";
+
+        FileInputFormat.addInputPath(job, new Path(input));
         //FileOutputFormat.setOutputPath(job, new Path(args[1]));
-
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        MapFileOutputFormat.setOutputPath(job, new Path(output));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }

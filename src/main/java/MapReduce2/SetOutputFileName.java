@@ -82,7 +82,7 @@ public class SetOutputFileName {
         //FileOutputFormat.setOutputPath(job, new Path(outputPath));
         TextOutputFormat.setOutputPath(job, new Path(outputPath));
         // MultipleSequenceFileOutputFormat.
-        MultipleSequenceFileOutputFormat.setCompressOutput();
+        //MultipleSequenceFileOutputFormat.setCompressOutput();
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }

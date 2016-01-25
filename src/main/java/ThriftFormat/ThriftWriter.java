@@ -1,4 +1,4 @@
-package MapReduce2;
+package ThriftFormat;
 
 import org.apache.thrift.TBase;
 import org.apache.thrift.TException;

@@ -1,22 +1,19 @@
-package MapReduce2;
-
-import java.io.IOException;
-import java.util.StringTokenizer;
+package MapfileAsOutput;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.JobClient;
-import org.apache.hadoop.mapreduce.*;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-
 import org.apache.hadoop.mapreduce.lib.output.MapFileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
-import org.apache.hadoop.util.GenericOptionsParser;
+
+import java.io.IOException;
+import java.util.StringTokenizer;
 
 
 public class NewWordCount {
@@ -83,23 +80,21 @@ public class NewWordCount {
         //job.setMapOutputKeyClass(Text.class);
         //job.setMapOutputValueClass(LongWritable.class);
 
-        // set reduce as 1. no method to set map number now.
-        job.setNumReduceTasks(1);
+        // if we set more than one reduce. then output also will be partitioned
+        // to different part-r- folders.
+        job.setNumReduceTasks(4);
 
 
         //set input output path.
         String input = args[0];
         String output = args[1];
 
-        //String input = "file:///home/junius/data/input";
-        //String output = "file:///home/junius/data/output";
-
-        SequenceFileInputFormat.addInputPath(job, new Path(input));
+        FileInputFormat.addInputPath(job, new Path(input));
         FileOutputFormat.setOutputPath(job, new Path(output));
 
         // set out put file format.
-        job.setInputFormatClass(SequenceFileInputFormat.class);
-        //job.setOutputFormatClass(MapFileOutputFormat.class);
+        //job.setInputFormatClass(SequenceFileInputFormat.class);
+        job.setOutputFormatClass(MapFileOutputFormat.class);
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }

@@ -1,10 +1,4 @@
-####
 
-hive use embedded db to store metadata.
-default is derby. can choose mysql or oracle.
-
-hive provide interface of thrift.
-and based on thrift, provide jdbc interface.
 
 
 ## data structure
@@ -20,8 +14,6 @@ and use file under table to store data.
 3. bucket table. use hash function for partition.
 4. external table. not in hdfs but in db.
    if delete external table, just delete metadata, not delete real file.
-
-
 
 
 ## create table

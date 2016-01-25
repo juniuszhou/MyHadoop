@@ -19,17 +19,17 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 
 public class MyMapFile {
-    public static void write() throws Exception {
-        Configuration conf=new Configuration();
-        FileSystem fs= FileSystem.get(conf);
-        Path mapFile=new Path("/home/junius/data/lines");
 
-        MapFile.Writer.Option keyClass =
-                (MapFile.Writer.Option)MapFile.Writer.keyClass(IntWritable.class);
+    public static Configuration conf = new Configuration();
+    public static String path = "/home/junius/data/output2";
+    public static Path mapFile = new Path("path");
+
+    public static void write() throws Exception {
+
+        MapFile.Writer.Option keyClass = MapFile.Writer.keyClass(IntWritable.class);
         SequenceFile.Writer.Option valueClass = MapFile.Writer.valueClass(Text.class);
 
         MapFile.Writer writer=new MapFile.Writer(conf,mapFile,keyClass,valueClass);
-
 
         writer.append(new IntWritable(1),new Text("value1"));
         writer.append(new IntWritable(2),new Text("value2"));
@@ -42,10 +42,10 @@ public class MyMapFile {
     }
 
     public static void read() throws Exception {
-        Configuration conf=new Configuration();
-        Path mapFile=new Path("/home/junius/data/lines");
-        IntWritable key=new IntWritable();
-        Text value=new Text();
+        Configuration conf = new Configuration();
+        Path mapFile=new Path(path + "/part-r-00000");
+        Text key=new Text();
+        LongWritable value=new LongWritable();
         MapFile.Reader reader=new MapFile.Reader(mapFile, conf);
         while(reader.next(key,value)){
             System.out.println(key + "  " + value);
@@ -54,10 +54,10 @@ public class MyMapFile {
     }
 
     public static void seek() throws Exception {
-        Configuration conf=new Configuration();
-        FileSystem fs= FileSystem.get(conf);
-        Path mapFile=new Path("/home/junius/data/lines");
-        IntWritable key=new IntWritable(2);
+
+        Path mapFile=new Path(path + "/part-r-00000");
+
+        Text key=new Text("dd");
         Text value=new Text();
         MapFile.Reader reader=new MapFile.Reader(mapFile, conf);
         // seek to key.

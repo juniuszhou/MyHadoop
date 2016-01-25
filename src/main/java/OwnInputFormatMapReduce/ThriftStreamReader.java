@@ -1,11 +1,13 @@
-package MapReduce2;
+package OwnInputFormatMapReduce;
 
 import org.apache.thrift.TBase;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.transport.TIOStreamTransport;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * code from http://bit.ly/1YlpepP
@@ -13,12 +15,8 @@ import java.io.*;
  *
  * @author Joel Meyer
  */
-public class ThriftReader {
-    /**
-     * File containing the objects.
-     */
-    protected final File file;
-    /**
+public class ThriftStreamReader {
+     /**
      * Used to create empty objects that will be initialized with values from the file.
      */
     protected final TBaseCreator creator;
@@ -31,20 +29,10 @@ public class ThriftReader {
      */
     private TBinaryProtocol binaryIn;
 
-    /**
-     * Constructor.
-     */
-    public ThriftReader(File file, TBaseCreator creator) {
-        this.file = file;
-        this.creator = creator;
-    }
-
-    /**
-     * Opens the file for reading. Must be called before {@link read()}.
-     */
-    public void open() throws FileNotFoundException {
-        bufferedIn = new BufferedInputStream(new FileInputStream(file), 2048);
+    public ThriftStreamReader(InputStream inputStream, TBaseCreator creator) {
+        bufferedIn = new BufferedInputStream(inputStream, 2048);
         binaryIn = new TBinaryProtocol(new TIOStreamTransport(bufferedIn));
+        this.creator = creator;
     }
 
     /**
@@ -73,9 +61,8 @@ public class ThriftReader {
     /**
      * Close the file.
      */
-    public ThriftReader close() throws IOException {
+    public void close() throws IOException {
         bufferedIn.close();
-        return this;
     }
 
     /**

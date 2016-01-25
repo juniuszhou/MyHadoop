@@ -1,4 +1,4 @@
-package MapReduce2;
+package MapfileAsInput;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
@@ -21,18 +21,18 @@ import org.apache.hadoop.util.GenericOptionsParser;
 
 public class NewWordCount {
 
-    public static class TokenizerMapper extends Mapper<Object, Text, Text, LongWritable>{
+    public static class TokenizerMapper extends Mapper<Text, LongWritable, Text, LongWritable>{
 
-        private final static LongWritable one = new LongWritable(1);
+        private LongWritable one = new LongWritable(1);
         private Text word = new Text();
 
-        public void map(Object key, Text value, Context context
+        public void map(Text key, LongWritable value, Context context
         ) throws IOException, InterruptedException {
-            StringTokenizer itr = new StringTokenizer(value.toString());
+            StringTokenizer itr = new StringTokenizer(key.toString());
             while (itr.hasMoreTokens()) {
                 word.set(itr.nextToken());
-
-                context.write(word, one);
+                //one = new LongWritable()
+                context.write(word, value);
             }
         }
     }

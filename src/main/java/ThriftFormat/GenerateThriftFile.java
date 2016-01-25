@@ -1,5 +1,8 @@
-package MapReduce2;
+package ThriftFormat;
 
+import MapReduce2.Calculator;
+import ThriftFormat.ThriftReader;
+import ThriftFormat.ThriftWriter;
 import org.apache.thrift.TBase;
 
 import java.io.File;
